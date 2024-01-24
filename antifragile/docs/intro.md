@@ -2,46 +2,116 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Getting Started
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Let's discover **Capy in less than 5 minutes**.
 
-## Getting Started
+## Install
 
-Get started by **creating a new site**.
+Get started by **install capy**.
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
+## Setup your repo
 
 ```bash
-npm init docusaurus@latest my-website classic
+capy setup
 ```
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+Type this command under the current directory of your repo on Terminal and it will start to analyze your repo. 
 
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
+## Start to work with Capy Agent
 
 ```bash
-cd my-website
-npm run start
+capy --command "terraform plan" --option explain | question etc.
 ```
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+Capy command allows you to run any command with --comand option and executing it. With --option, you could
+connect to copilot agent to question you want to ask about this repo or analyze your current change etc.
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+## Example
+Let's say here is a change you added to your terraform repo.
+```bash
+terraform {
+  required_providers {
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 3.0.1"
+    }
+  }
+}
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+resource "docker_image" "nginx" {
+  name         = "nginx"
+  keep_locally = false
+}
+
+resource "docker_container" "nginx" {
+  image = docker_image.nginx.image_id
+  name  = "tutorial"
+
+  ports {
+    internal = 80
+    external = 8000
+  }
+}
+```
+
+Then you want to run a **terraform plan** and then see what the change do. Execute the following:
+```bash
+capy --command "terraform plan" --option explain | question etc.
+```
+
+Here is the output of the Capy command.
+```bash
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # docker_container.nginx will be created
+  + resource "docker_container" "nginx" {
+      + attach                                      = false
+      + bridge                                      = (known after apply)
+      ...
+      + ports {
+          + external = 8000
+          + internal = 80
+          + ip       = "0.0.0.0"
+          + protocol = "tcp"
+        }
+    }
+
+  # docker_image.nginx will be created
+  + resource "docker_image" "nginx" {
+      + id           = (known after apply)
+      + image_id     = (known after apply)
+      + keep_locally = false
+      + name         = "nginx"
+      + repo_digest  = (known after apply)
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+
+The given Terraform plan shows that Terraform will perform the following actions:
+
+1. Create a Docker container named "tutorial" using the "docker_container" resource. 
+The container will have various configuration options such as attach, bridge, command, 
+container_logs, entrypoint, env, exit_code, hostname, image, init, ipc_mode,
+log_driver, logs, must_run, network_data, read_only, remove_volumes, restart,
+rm, runtime, security_opts, shm_size, start, stdin_open, stop_signal,
+stop_timeout, tty, wait, and wait_timeout. 
+Additionally, the container will have a port mapping from external port 8000 to internal port 80 with protocol TCP.
+
+2. Create a Docker image named "nginx" using the "docker_image" resource. 
+The image will have various attributes such as id, image_id, keep_locally, and repo_digest.
+
+The plan indicates that there are 2 resources to be added and 
+no resources to be changed or destroyed. 
+However, it is important to note that this plan was not saved using the "-out" option, 
+so running "terraform apply" may not guarantee the exact same actions.
+```
