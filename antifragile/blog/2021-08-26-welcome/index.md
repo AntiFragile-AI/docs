@@ -1,25 +1,20 @@
 ---
 slug: welcome
-title: Welcome
-authors: [slorber, yangshun]
-tags: [facebook, hello, docusaurus]
+title: Anti-fragility in Distributed Systems
+authors: [ankil]
 ---
 
-[Docusaurus blogging features](https://docusaurus.io/docs/blog) are powered by the [blog plugin](https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog).
+Aug. 30, 2023
 
-Simply add Markdown files (or folders) to the `blog` directory.
+I asked a former manager (I haven’t asked him yet if I can use his name in this blog post) about how to build resilient systems and his response was that I had the wrong idea. The holy grail wasn’t in resilient systems - it was in anti fragile systems (from the book by Taleb). Anti-fragile systems are able to learn and become better with new stressors. How do we build antifragile systems? AI provides an avenue for creating agents that can adapt to new information and learn more efficiently than previous techniques.
 
-Regular blog authors can be added to `authors.yml`.
+A part of me wondered how many of the system-level issues we saw came from insufficient designs, changing environments that were no longer suitable to the implementation, terrible metrics (or lack thereof) and intuitive decision-making vs data-driven processes. Unfortunately, most of these problems are endemic of the entire industry, partly because of inertia, lack of infrastructure and de-prioritization because these issues aren’t visible to customers. However, the drivers behind decision-making are still cost, efficiency and productivity so I can see how the solutions outlined in this post address KPIs that businesses are measuring.
 
-The blog post date can be extracted from filenames, such as:
+I understand why it’s been designed this way: classical control theory has rigorously proven theorems and established methods of achieving stability and correctness - hence why kubernetes is still able to use controllers invented in the 1900s to scale to ’large’ workloads. When I asked my reinforcement learning (RL) professor what the difference was between reinforcement learning and control theory, his response was that the two research groups just don’t meet despite solving very similar problems. Even Sutton and Barto in their seminal RL book talk about how control theory is a precursor to RL but have diverged because of their differing objectives. It seems like data-driven control theory is going to use more modern ML techniques and the line between these two fields gets more blurry. My preference for RL is not motivated by capability, because it seems that gap is getting smaller, but rather by simplicity of the model because we’ve already seen how compact and simple RL controllers can be while emulating the same behavior as control-theory controllers with more generality and in situations that typically warranted strong guarantees of safety. However, I’m not married to RL or AI in general - I simply think that it offers a good solution to this problem.
 
-- `2019-05-30-welcome.md`
-- `2019-05-30-welcome/index.md`
+My first thought was to create a learning agent that can adjust parameters on a config file since systems are strung together with config files as interfaces. A config file has very specific assumptions about the system/component, the types and the format. However, it’s not an intrinsic part of the system, it’s just an interface to the system. An agent that adjusts config files would be easier to sell and integrate into tech stacks, but we need to make assumptions about the behavior of the underlying service and integrity of the interface (e.g. fields in the config that get ignored in the code). This suggests to me that config files are really second class system primitives. Now I introduce a first class system primitive by highlighting the difference between a first class and second class primitive: a first class primitive is an intrinsic aspect of the system and can evolve with the system whereas an interface to the system is more of a proxy and it requires collaboration between teams. Moreover, it can involve shims and careful engineering work to migrate to new deployments.
 
-A blog post folder can be convenient to co-locate blog post images:
+Is this abstraction useful for businesses? Or is the distinction between first and second class primitives just pedantic philosophizing? Why must we limit ourselves to such rigid system primitives? Instead, what if we had differentiable, tunable and intrinsic system primitives that were exposed to a learning agent so the system can adapt and learn from new stressors? Why can’t we build systems that intrinsically exploit stressors to adapt to them?
 
-![Docusaurus Plushie](./docusaurus-plushie-banner.jpeg)
+For a business serving customers, stability and correctness translate directly to customer retention. However, these needs have changed and even startups can start to ingest thousands of GBs of data every day, serve thousands of customers within a relatively short period of time, all while battling cloud costs in the name of growth. On top of that, when systems inevitably break because some of config issues, unexpected traffic distributions, latent system bottlenecks, etc. we tend to assign multiple engineers to fix those issues, costing the business money and, what is infinitely more valuable, time. I want to sum up my sentiment with this analogy: chaos testing is to systems as what sanitizers are to C++ in that both are afterthoughts. If our needs and capabilities have changed, why haven’t the systems underpinning the modern internet changed?
 
-The blog supports tags as well!
-
-**And if you don't want a blog**: just delete this directory, and use `blog: false` in your Docusaurus config.
