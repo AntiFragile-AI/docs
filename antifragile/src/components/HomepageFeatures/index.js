@@ -9,7 +9,7 @@ const FeatureList = [
     description: (
       <>
         Capy was designed from the ground up to be easily installed and
-        used to help your development efficiency and system optimized.
+        used during your day-to-day development.
       </>
     ),
   },
@@ -19,7 +19,7 @@ const FeatureList = [
     description: (
       <>
         Copilot features aims to support users with better development
-        workflow and engineering practices. 
+        productivity and engineering practices. 
       </>
     ),
   },
@@ -28,8 +28,8 @@ const FeatureList = [
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        AI agent helps to understand your system better and optimized 
-        resources to facilitate building an antifragile system.
+        AI agent helps to understand your entire system and optimized 
+        resources to facilitate building an antifragile system
       </>
     ),
   },
