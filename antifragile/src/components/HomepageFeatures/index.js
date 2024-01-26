@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
+import Image from '@theme/IdealImage';
 import styles from './styles.module.css';
 
 const FeatureList = [
   {
     title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('@site/static/img/diagram1.png'),
     description: (
       <>
         Capy was designed from the ground up to be easily installed and
@@ -15,7 +16,7 @@ const FeatureList = [
   },
   {
     title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('@site/static/img/diagram2.png'),
     description: (
       <>
         Copilot features aims to support users with better development
@@ -25,7 +26,7 @@ const FeatureList = [
   },
   {
     title: 'Powered by AI',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('@site/static/img/diagram3.png'),
     description: (
       <>
         AI agent helps to understand your system better and optimized 
@@ -39,7 +40,7 @@ function Feature({Svg, title, description}) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        <Image img={Svg} />
       </div>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>

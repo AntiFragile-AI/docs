@@ -8,8 +8,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Capy',
-  tagline: 'Future AI to Build Antifragile System',
+  title: 'Antifragile.AI',
+  tagline: 'Copilot For Antifragile System',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -33,6 +33,19 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  
+  plugins: [
+    [
+      '@docusaurus/plugin-ideal-image',
+      {
+        quality: 70,
+        max: 1030, // max resized image's size.
+        min: 640, // min resized image's size. if original is lower, use that size.
+        steps: 2, // the max number of images generated between min and max (inclusive)
+        disableInDev: false,
+      },
+    ],
+  ],
 
   presets: [
     [
@@ -98,7 +111,7 @@ const config = {
             items: [
               {
                 label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged',
+                href: 'https://stackoverflow.com/questions/tagged/',
               },
             ],
           },
@@ -120,5 +133,7 @@ const config = {
       },
     }),
 };
+
+
 
 export default config;
